@@ -1,0 +1,86 @@
+---
+title: "Database Management - Project 3"
+author: "Paul Perez, William Outcault, Aaron Zalki, John Suh"
+date: "10/20/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Database Package
+```{r}
+#install.packages("sqldf")
+```
+```{r}
+library(sqldf)
+```
+
+### Create Database
+We'll create a SQLite database for the purpose of this project. 
+```{r}
+db <- dbConnect(SQLite(), dbname = "project_3.sqlite")
+```
+
+### Create Tables
+Create Cyber Coders Table
+```{r}
+dbSendQuery(conn = db,
+             "CREATE TABLE IF NOT EXISTS cybercoders
+             (titles TEXT,
+             date DATE,
+             location TEXT,
+             wage TEXT,
+             skills TEXT,
+             query TEXT)")
+```
+```{r}
+# Uncomment should you have to drop this table
+#dbSendQuery(conn = db,
+#             "DROP TABLE cybercoders")
+```
+
+Create Career Builder Table
+```{r}
+dbSendQuery(conn = db,
+             "CREATE TABLE IF NOT EXISTS careerbuilder
+             (ws_order TEXT,
+             ws_st_url TEXT,
+             link TEXT,
+             link_href TEXT,
+             load_more TEXT,
+             load_more_href TEXT,
+             name TEXT,
+             location TEXT,
+             salary TEXT,
+             skills TEXT,
+             query TEXT)")
+```
+```{r}
+# Uncomment should you have to drop this table
+#dbSendQuery(conn = db,
+#             "DROP TABLE careerbuilder")
+```
+
+
+
+### Create Blended View
+We'll create a blended view for analysis in which we're lining up the Job Title, Location, Salary, and Skill from each of the 'cybercoders' and 'careerbuilder' tables.
+```{r}
+dbSendQuery(conn = db,
+             "CREATE VIEW IF NOT EXISTS job_postings AS
+             SELECT 'Cyber Coders' AS website, query, titles, location, wage, skills FROM cybercoders
+             UNION
+             SELECT 'Career Builder' AS website, query, name, location, salary, skills FROM careerbuilder")
+```
+```{r}
+# Uncomment should you have to drop this view
+#dbSendQuery(conn = db,
+#             "DROP VIEW job_postings")
+```
+
+### Close Connection
+```{r}
+dbDisconnect(db)
+```
