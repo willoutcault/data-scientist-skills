@@ -1,14 +1,20 @@
 ---
-title: 'Recommended Skills for Aspiring Data Scientists'
+title: 'Necessary Skills to Master Data'
 output:
   html_document:
     highlight: pygments
     theme: cerulean
-  pdf_document: default
+    toc: true
+    toc_float:
+      collapsed: true
 ---
-### By William Outcault, Paul Perez, Aaron Zalki and John Suh
+##### By William Outcault, Paul Perez, Aaron Zalki and John Suh
 
-# Libraries
+# Poject Overview
+
+We want to help future employees prioritize their skills so that they can grow their value in their discipline. This will be beneficial to those looking for general traits to practice before actually deciding their career. This project will display five traits necessary to learn as a data analyst, data scientist and data engineer. In addition, displayed are salary distributions and cities where these jobs are in high demand.
+
+#### Libraries
 
 ```{r message=FALSE}
 require(dplyr)
@@ -17,13 +23,13 @@ require(ggplot2)
 require(stringr)
 ```
 
-# Scraped Data
+#### Scraped Data
 
 ```{r}
 df <- read.csv("https://raw.githubusercontent.com/wco1216/datascientistskills/master/blended_view.csv", TRUE, ",")
 ```
 
-# Counting and Filtering the Desired Skills
+#### Counting and Filtering the Desired Skills
 
 The skills were counted for each position, data scientist, data analyst and data engineer. Vauge skills were removed that we felt didn't provide much incite to this research.
 
@@ -55,7 +61,7 @@ deskills <- df %>%
 
 \clearpage
 
-# Skills for Data Scientists, Data Analysts and Data Engineers
+# Desired Skills
 
 ## Data Scientist
 
@@ -64,7 +70,7 @@ ggplot(dsskills, aes(x=reorder(skills, n),
                   y=n, label="count")) +
   geom_bar(stat='identity', width=.5, fill = "lightblue", color = "darkblue")  +
   scale_fill_manual(name="Data Scientist Skills") + 
-  labs(title= "Desired Skills for a Data Scientist") + 
+  labs(title= "Desired Skills for a Data Scientist") +
   coord_flip()
 ```
 
@@ -102,7 +108,7 @@ ggplot(deskills, aes(x=reorder(skills, n),
 
 \clearpage
 
-# Counting the Salary Range for Each Job Position
+#### Counting the Salary Range for Each Job Position
 
 For each job position the estimated salary posted on website was recorded and counted. Some minor cleaning was required in order to have accurate and consistant counts.
 
@@ -135,7 +141,7 @@ deskills$salary <- as.numeric(deskills$wage)
 
 \clearpage
 
-# Salary Ranges for Data Scientists, Data Analysts and Data Engineers
+# Salary Ranges
 
 ## Data Scientist
 
@@ -182,7 +188,7 @@ ggplot(deskills, aes(x=salary))+
 
 \clearpage
 
-# Counting and Filtering the Location of the Job Positions
+#### Counting and Filtering the Location of the Job Positions
 
 The location of each post was another topic of interest. We counted the total amount of job postings from each city to better understand which cities are hiring for data scientists, engineers and analysts.
 
@@ -195,7 +201,7 @@ df <- df %>%
   filter(location != "NA" & n > 10)
 ```
 
-# Job Positions by City
+# Job Demand City
 
 ```{r}
 ggplot(df, aes(x=reorder(location, n),
@@ -212,11 +218,11 @@ ggplot(df, aes(x=reorder(location, n),
 
 # Conclusion
 
-## R, Python or SQL?
+#### R, Python or SQL?
 
 Looking at Python, R and SQL we see Python and SQL are neck and neck. For data scientists and data engineers Python experience was listed deveral more times than SQL. However for data analyst positions we see SQL listed the most. Python is the most popular programming language for data scientists, for data analysts SQL is most popular and for data engineers it is Java. 
 
-## Skills
+#### Skills
 
 `Data Scientist: Top 5 skills` employers desire from their data scientist is proficency in `Machine Learning`, `Python`, `Data Mining`, `Deep Learning`, and `SQL`. 
 
@@ -225,11 +231,11 @@ Looking at Python, R and SQL we see Python and SQL are neck and neck. For data s
 `Data Engineer: Top 5 skills` employers desire from their data scientist is proficency in `Java`, `Python`, `Big Data`, `SPARK`, and `Hadoop`. 
 
 
-## Salaries
+#### Salaries
 
 The salaries range from `50k - 200k` for any given job position. Some exceed 200k and some are below 50k however for a student's sake this is the range we will be focusing on. We see the mean salaries increase as we go from `data analyst < data scientist < data engineer`. 
 
-## Hiring Cities
+#### Hiring Cities
 
 The top 5 cities with the most job postings were San Fancisco, Boston, New York City, Los Angeles, and Austin. Each one of these cities included at least 45 job postings and are great places to start a career in the tech industry.
 
